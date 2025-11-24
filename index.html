@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Manage your recurring financial reminders and subscriptions">
+  <title>Reminder Manager</title>
+  <link rel="stylesheet" href="/src/styles/main.css">
+</head>
+<body>
+  <div id="app">
+    <header>
+      <h1>Reminder Manager</h1>
+      <p class="subtitle">Track your subscriptions and financial obligations</p>
+    </header>
+
+    <main>
+      <!-- Notification Panel -->
+      <section id="notifications-panel" class="notifications-panel">
+        <h2>Notifications</h2>
+        <div id="notifications-content"></div>
+      </section>
+
+      <!-- Reminder Form -->
+      <section id="reminder-form-section" class="form-section">
+        <h2 id="form-title">Add New Reminder</h2>
+        <form id="reminder-form">
+          <div class="form-group">
+            <label for="reminder-name">Name *</label>
+            <input type="text" id="reminder-name" name="name" required aria-required="true">
+            <span class="error-message" id="name-error"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="reminder-amount">Amount *</label>
+            <input type="number" id="reminder-amount" name="amount" step="0.01" min="0" required aria-required="true">
+            <span class="error-message" id="amount-error"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="reminder-due-date">Due Date *</label>
+            <input type="date" id="reminder-due-date" name="dueDate" required aria-required="true">
+            <span class="error-message" id="dueDate-error"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="reminder-category">Category *</label>
+            <select id="reminder-category" name="category" required aria-required="true">
+              <option value="">Select a category</option>
+              <option value="subscription">Subscription</option>
+              <option value="tax">Tax</option>
+              <option value="insurance">Insurance</option>
+              <option value="utility">Utility</option>
+              <option value="other">Other</option>
+            </select>
+            <span class="error-message" id="category-error"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="reminder-recurrence">Recurrence *</label>
+            <select id="reminder-recurrence" name="recurrence" required aria-required="true">
+              <option value="one-time">One-time</option>
+              <option value="monthly">Monthly</option>
+              <option value="quarterly">Quarterly</option>
+              <option value="annually">Annually</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="reminder-notes">Notes</label>
+            <textarea id="reminder-notes" name="notes" rows="3"></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Save Reminder</button>
+            <button type="button" id="cancel-btn" class="btn btn-secondary">Cancel</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Filter Bar -->
+      <section id="filter-bar-section" class="filter-bar">
+        <div class="filter-controls">
+          <div class="search-group">
+            <label for="search-input">Search</label>
+            <input type="text" id="search-input" placeholder="Search reminders...">
+          </div>
+
+          <div class="filter-group">
+            <label for="category-filter">Filter by Category</label>
+            <select id="category-filter">
+              <option value="">All Categories</option>
+              <option value="subscription">Subscription</option>
+              <option value="tax">Tax</option>
+              <option value="insurance">Insurance</option>
+              <option value="utility">Utility</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <button type="button" id="clear-filters-btn" class="btn btn-secondary">Clear Filters</button>
+        </div>
+      </section>
+
+      <!-- Reminders List -->
+      <section id="reminders-list-section" class="reminders-list">
+        <h2>Your Reminders</h2>
+        <div id="reminders-content"></div>
+      </section>
+    </main>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-modal" class="modal" role="dialog" aria-labelledby="modal-title" aria-modal="true">
+      <div class="modal-content">
+        <h3 id="modal-title">Confirm Deletion</h3>
+        <p>Are you sure you want to delete this reminder?</p>
+        <div class="modal-actions">
+          <button type="button" id="confirm-delete-btn" class="btn btn-danger">Delete</button>
+          <button type="button" id="cancel-delete-btn" class="btn btn-secondary">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
