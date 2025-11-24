@@ -59,7 +59,7 @@ export class StorageService {
     }
   }
 
-  updateReminder(id: string, reminder: Reminder): void {
+  updateReminder(_id: string, reminder: Reminder): void {
     this.saveReminder(reminder);
   }
 

@@ -4,6 +4,7 @@ import { ReminderForm } from './components/ReminderForm';
 import { ReminderList } from './components/ReminderList';
 import { NotificationPanel } from './components/NotificationPanel';
 import { FilterBar } from './components/FilterBar';
+import { ErrorHandler } from './utils/errorHandler';
 import type { Reminder } from './models/types';
 
 class App {
@@ -12,7 +13,6 @@ class App {
   private reminderForm: ReminderForm;
   private reminderList: ReminderList;
   private notificationPanel: NotificationPanel;
-  private filterBar: FilterBar;
   private deleteModal: HTMLElement;
   private pendingDeleteId: string | null = null;
 
@@ -29,7 +29,7 @@ class App {
       (id) => this.showDeleteConfirmation(id)
     );
     this.notificationPanel = new NotificationPanel(this.reminderService, this.appState);
-    this.filterBar = new FilterBar(this.appState);
+    new FilterBar(this.appState);
 
     this.deleteModal = document.getElementById('delete-modal') as HTMLElement;
 
@@ -104,8 +104,7 @@ class App {
         this.pendingDeleteId = null;
         this.deleteModal.classList.remove('active');
       } catch (error) {
-        console.error('Failed to delete reminder', error);
-        alert('Failed to delete reminder. Please try again.');
+        ErrorHandler.logError('Delete Reminder', error);
       }
     }
   }

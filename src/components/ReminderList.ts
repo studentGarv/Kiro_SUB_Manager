@@ -66,14 +66,16 @@ export class ReminderList {
 
         ${reminder.notes ? `<div class="reminder-notes">${this.escapeHtml(reminder.notes)}</div>` : ''}
 
+        ${this.renderCompletionHistory(reminder)}
+
         <div class="reminder-actions">
-          <button class="btn btn-sm btn-success mark-complete-btn" data-id="${reminder.id}">
+          <button class="btn btn-sm btn-success mark-complete-btn" data-id="${reminder.id}" aria-label="Mark ${this.escapeHtml(reminder.name)} as complete">
             Mark Complete
           </button>
-          <button class="btn btn-sm btn-primary edit-btn" data-id="${reminder.id}">
+          <button class="btn btn-sm btn-primary edit-btn" data-id="${reminder.id}" aria-label="Edit ${this.escapeHtml(reminder.name)}">
             Edit
           </button>
-          <button class="btn btn-sm btn-danger delete-btn" data-id="${reminder.id}">
+          <button class="btn btn-sm btn-danger delete-btn" data-id="${reminder.id}" aria-label="Delete ${this.escapeHtml(reminder.name)}">
             Delete
           </button>
         </div>
@@ -157,6 +159,30 @@ export class ReminderList {
     return recurrence.split('-').map(word => 
       word.charAt(0).toUpperCase() + word.slice(1)
     ).join(' ');
+  }
+
+  private renderCompletionHistory(reminder: Reminder): string {
+    if (reminder.completionHistory.length === 0) {
+      return '';
+    }
+
+    const historyItems = reminder.completionHistory
+      .slice(-5) // Show last 5 completions
+      .reverse()
+      .map(record => `
+        <div style="font-size: 0.75rem; color: var(--text-secondary);">
+          ✓ Completed on ${format(record.completedAt, 'MMM dd, yyyy')}
+        </div>
+      `)
+      .join('');
+
+    return `
+      <div class="reminder-history" style="margin-top: var(--spacing-sm); padding: var(--spacing-sm); background-color: var(--bg-tertiary); border-radius: var(--border-radius);">
+        <div style="font-weight: 500; margin-bottom: var(--spacing-xs); font-size: 0.875rem;">Completion History</div>
+        ${historyItems}
+        ${reminder.completionHistory.length > 5 ? `<div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: var(--spacing-xs);">... and ${reminder.completionHistory.length - 5} more</div>` : ''}
+      </div>
+    `;
   }
 
   private escapeHtml(text: string): string {

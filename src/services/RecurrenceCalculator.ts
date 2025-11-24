@@ -1,5 +1,5 @@
 import { addMonths, addYears } from 'date-fns';
-import type { Reminder, RecurrencePattern } from '../models/types';
+import type { Reminder } from '../models/types';
 
 export class RecurrenceCalculator {
   calculateNextOccurrence(reminder: Reminder): Date {
