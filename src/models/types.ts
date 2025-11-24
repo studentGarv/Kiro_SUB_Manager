@@ -2,7 +2,7 @@
 
 export type ReminderCategory = 'subscription' | 'tax' | 'insurance' | 'utility' | 'other';
 
-export type RecurrencePattern = 'one-time' | 'monthly' | 'quarterly' | 'annually';
+export type RecurrencePattern = 'one-time' | 'monthly' | 'quarterly' | 'annually' | 'custom';
 
 export type ReminderStatus = 'active' | 'completed' | 'overdue';
 
@@ -18,6 +18,7 @@ export interface Reminder {
   dueDate: Date;
   category: ReminderCategory;
   recurrence: RecurrencePattern;
+  customRecurrenceDays?: number; // For custom recurrence pattern
   notes?: string;
   status: ReminderStatus;
   completionHistory: CompletionRecord[];
@@ -31,6 +32,7 @@ export interface ReminderInput {
   dueDate: string;
   category: ReminderCategory;
   recurrence: RecurrencePattern;
+  customRecurrenceDays?: number;
   notes?: string;
 }
 
@@ -51,7 +53,7 @@ export function isReminderCategory(value: string): value is ReminderCategory {
 }
 
 export function isRecurrencePattern(value: string): value is RecurrencePattern {
-  return ['one-time', 'monthly', 'quarterly', 'annually'].includes(value);
+  return ['one-time', 'monthly', 'quarterly', 'annually', 'custom'].includes(value);
 }
 
 export function isReminderStatus(value: string): value is ReminderStatus {

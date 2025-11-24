@@ -60,7 +60,7 @@ export class ReminderList {
           </div>
           <div class="reminder-detail">
             <span class="reminder-detail-label">Recurrence</span>
-            <span>${this.formatRecurrence(reminder.recurrence)}</span>
+            <span>${this.formatRecurrence(reminder.recurrence, reminder.customRecurrenceDays)}</span>
           </div>
         </div>
 
@@ -155,7 +155,10 @@ export class ReminderList {
     return category.charAt(0).toUpperCase() + category.slice(1);
   }
 
-  private formatRecurrence(recurrence: string): string {
+  private formatRecurrence(recurrence: string, customDays?: number): string {
+    if (recurrence === 'custom' && customDays) {
+      return `Every ${customDays} day${customDays !== 1 ? 's' : ''}`;
+    }
     return recurrence.split('-').map(word => 
       word.charAt(0).toUpperCase() + word.slice(1)
     ).join(' ');

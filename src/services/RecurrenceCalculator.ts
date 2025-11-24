@@ -1,4 +1,4 @@
-import { addMonths, addYears } from 'date-fns';
+import { addMonths, addYears, addDays } from 'date-fns';
 import type { Reminder } from '../models/types';
 
 export class RecurrenceCalculator {
@@ -14,6 +14,12 @@ export class RecurrenceCalculator {
       
       case 'annually':
         return addYears(currentDueDate, 1);
+      
+      case 'custom':
+        if (reminder.customRecurrenceDays && reminder.customRecurrenceDays > 0) {
+          return addDays(currentDueDate, reminder.customRecurrenceDays);
+        }
+        return currentDueDate;
       
       case 'one-time':
         return currentDueDate;

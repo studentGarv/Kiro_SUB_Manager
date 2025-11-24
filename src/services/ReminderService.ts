@@ -21,6 +21,11 @@ export class ReminderService {
       throw new Error(`Validation failed: ${validation.errors.map(e => e.message).join(', ')}`);
     }
 
+    // Validate custom recurrence
+    if (data.recurrence === 'custom' && (!data.customRecurrenceDays || data.customRecurrenceDays <= 0)) {
+      throw new Error('Custom recurrence requires a positive number of days');
+    }
+
     const now = new Date();
     const dueDate = new Date(data.dueDate);
     
@@ -31,6 +36,7 @@ export class ReminderService {
       dueDate,
       category: data.category,
       recurrence: data.recurrence,
+      customRecurrenceDays: data.customRecurrenceDays,
       notes: data.notes,
       status: this.calculateStatus(dueDate),
       completionHistory: [],
@@ -54,12 +60,18 @@ export class ReminderService {
       dueDate: data.dueDate ?? existing.dueDate.toISOString(),
       category: data.category ?? existing.category,
       recurrence: data.recurrence ?? existing.recurrence,
+      customRecurrenceDays: data.customRecurrenceDays ?? existing.customRecurrenceDays,
       notes: data.notes ?? existing.notes,
     };
 
     const validation = this.validationService.validateReminderInput(updatedData);
     if (!validation.isValid) {
       throw new Error(`Validation failed: ${validation.errors.map(e => e.message).join(', ')}`);
+    }
+
+    // Validate custom recurrence
+    if (updatedData.recurrence === 'custom' && (!updatedData.customRecurrenceDays || updatedData.customRecurrenceDays <= 0)) {
+      throw new Error('Custom recurrence requires a positive number of days');
     }
 
     const dueDate = new Date(updatedData.dueDate);
@@ -71,6 +83,7 @@ export class ReminderService {
       dueDate,
       category: updatedData.category,
       recurrence: updatedData.recurrence,
+      customRecurrenceDays: updatedData.customRecurrenceDays,
       notes: updatedData.notes,
       status: this.calculateStatus(dueDate),
       updatedAt: new Date(),

@@ -5,7 +5,9 @@ Reminder Manager is a web application for managing recurring financial reminders
 ## Key Features
 
 - Create reminders with amounts, due dates, and categories
-- Recurring patterns: one-time, monthly, quarterly, annually
+- Recurring patterns: one-time, monthly, quarterly, annually, or custom (every X days)
+- Custom recurrence allows flexible intervals (e.g., bi-weekly, every 10 days)
+- Dark mode with automatic theme detection and manual toggle
 - Visual notifications for upcoming and overdue reminders
 - Search and filter by category and status
 - Completion history tracking

@@ -10,8 +10,15 @@
 <body>
   <div id="app">
     <header>
-      <h1>Reminder Manager</h1>
-      <p class="subtitle">Track your subscriptions and financial obligations</p>
+      <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto;">
+        <div>
+          <h1>Reminder Manager</h1>
+          <p class="subtitle">Track your subscriptions and financial obligations</p>
+        </div>
+        <button id="theme-toggle" class="btn btn-secondary" aria-label="Toggle dark mode">
+          <span id="theme-icon">🌙</span>
+        </button>
+      </div>
     </header>
 
     <main>
@@ -63,7 +70,14 @@
               <option value="monthly">Monthly</option>
               <option value="quarterly">Quarterly</option>
               <option value="annually">Annually</option>
+              <option value="custom">Custom</option>
             </select>
+          </div>
+
+          <div class="form-group" id="custom-recurrence-group" style="display: none;">
+            <label for="reminder-custom-days">Repeat every (days) *</label>
+            <input type="number" id="reminder-custom-days" name="customRecurrenceDays" min="1" step="1" placeholder="e.g., 14 for bi-weekly">
+            <span class="error-message" id="customRecurrenceDays-error"></span>
           </div>
 
           <div class="form-group">

@@ -5,7 +5,9 @@ A web application for managing recurring financial reminders and subscriptions.
 ## Features
 
 - Create and manage reminders for subscriptions, taxes, insurance, and other financial obligations
-- Set recurring patterns (monthly, quarterly, annually)
+- Set recurring patterns (monthly, quarterly, annually, or custom intervals)
+- **Custom recurrence**: Set reminders to repeat every X days (e.g., every 14 days for bi-weekly)
+- **Dark mode**: Toggle between light and dark themes with automatic preference detection
 - Visual notifications for upcoming and overdue reminders
 - Filter and search functionality
 - Responsive design for mobile and desktop

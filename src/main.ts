@@ -5,6 +5,7 @@ import { ReminderList } from './components/ReminderList';
 import { NotificationPanel } from './components/NotificationPanel';
 import { FilterBar } from './components/FilterBar';
 import { ErrorHandler } from './utils/errorHandler';
+import { ThemeManager } from './utils/ThemeManager';
 import type { Reminder } from './models/types';
 
 class App {
@@ -19,6 +20,9 @@ class App {
   constructor() {
     this.reminderService = new ReminderService();
     this.appState = new AppState();
+
+    // Initialize theme
+    new ThemeManager();
 
     // Initialize components
     this.reminderForm = new ReminderForm(this.reminderService, this.appState);
