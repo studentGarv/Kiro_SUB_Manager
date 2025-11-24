@@ -1,0 +1,167 @@
+import { differenceInDays, format } from 'date-fns';
+import type { Reminder } from '../models/types';
+import { ReminderService } from '../services/ReminderService';
+import { AppState } from '../services/AppState';
+
+export class ReminderList {
+  private container: HTMLElement;
+  private reminderService: ReminderService;
+  private appState: AppState;
+  private onEdit: (reminder: Reminder) => void;
+  private onDelete: (id: string) => void;
+
+  constructor(
+    reminderService: ReminderService,
+    appState: AppState,
+    onEdit: (reminder: Reminder) => void,
+    onDelete: (id: string) => void
+  ) {
+    this.reminderService = reminderService;
+    this.appState = appState;
+    this.onEdit = onEdit;
+    this.onDelete = onDelete;
+    this.container = document.getElementById('reminders-content') as HTMLElement;
+  }
+
+  render(reminders: Reminder[]): void {
+    if (reminders.length === 0) {
+      this.container.innerHTML = '<div class="empty-state">No reminders found. Create one to get started!</div>';
+      return;
+    }
+
+    this.container.innerHTML = reminders.map(reminder => this.renderReminder(reminder)).join('');
+    this.attachEventListeners();
+  }
+
+  private renderReminder(reminder: Reminder): string {
+    const daysUntilDue = this.calculateDaysUntilDue(reminder.dueDate);
+    const statusClass = this.getStatusClass(reminder, daysUntilDue);
+    const statusText = this.getStatusText(daysUntilDue, reminder.status);
+
+    return `
+      <div class="reminder-item ${statusClass}" data-reminder-id="${reminder.id}">
+        <div class="reminder-header">
+          <h3 class="reminder-title">${this.escapeHtml(reminder.name)}</h3>
+          <span class="reminder-amount">$${reminder.amount.toFixed(2)}</span>
+        </div>
+        
+        <div class="reminder-details">
+          <div class="reminder-detail">
+            <span class="reminder-detail-label">Due Date</span>
+            <span>${format(reminder.dueDate, 'MMM dd, yyyy')}</span>
+          </div>
+          <div class="reminder-detail">
+            <span class="reminder-detail-label">Status</span>
+            <span>${statusText}</span>
+          </div>
+          <div class="reminder-detail">
+            <span class="reminder-detail-label">Category</span>
+            <span>${this.formatCategory(reminder.category)}</span>
+          </div>
+          <div class="reminder-detail">
+            <span class="reminder-detail-label">Recurrence</span>
+            <span>${this.formatRecurrence(reminder.recurrence)}</span>
+          </div>
+        </div>
+
+        ${reminder.notes ? `<div class="reminder-notes">${this.escapeHtml(reminder.notes)}</div>` : ''}
+
+        <div class="reminder-actions">
+          <button class="btn btn-sm btn-success mark-complete-btn" data-id="${reminder.id}">
+            Mark Complete
+          </button>
+          <button class="btn btn-sm btn-primary edit-btn" data-id="${reminder.id}">
+            Edit
+          </button>
+          <button class="btn btn-sm btn-danger delete-btn" data-id="${reminder.id}">
+            Delete
+          </button>
+        </div>
+      </div>
+    `;
+  }
+
+  private attachEventListeners(): void {
+    // Edit buttons
+    this.container.querySelectorAll('.edit-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const id = (e.target as HTMLElement).dataset.id!;
+        const reminder = this.reminderService.getAllReminders().find(r => r.id === id);
+        if (reminder) {
+          this.onEdit(reminder);
+        }
+      });
+    });
+
+    // Delete buttons
+    this.container.querySelectorAll('.delete-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const id = (e.target as HTMLElement).dataset.id!;
+        this.onDelete(id);
+      });
+    });
+
+    // Mark complete buttons
+    this.container.querySelectorAll('.mark-complete-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const id = (e.target as HTMLElement).dataset.id!;
+        this.handleMarkComplete(id);
+      });
+    });
+  }
+
+  private handleMarkComplete(id: string): void {
+    try {
+      this.reminderService.markComplete(id);
+      this.appState.setReminders(this.reminderService.getAllReminders());
+    } catch (error) {
+      console.error('Failed to mark reminder as complete', error);
+    }
+  }
+
+  private calculateDaysUntilDue(dueDate: Date): number {
+    return differenceInDays(dueDate, new Date());
+  }
+
+  private getStatusClass(reminder: Reminder, daysUntilDue: number): string {
+    if (reminder.status === 'completed') {
+      return 'completed';
+    }
+    if (daysUntilDue < 0) {
+      return 'overdue';
+    }
+    if (daysUntilDue <= 7) {
+      return 'upcoming';
+    }
+    return '';
+  }
+
+  private getStatusText(daysUntilDue: number, status: string): string {
+    if (status === 'completed') {
+      return 'Completed';
+    }
+    if (daysUntilDue < 0) {
+      return `${Math.abs(daysUntilDue)} day${Math.abs(daysUntilDue) !== 1 ? 's' : ''} overdue`;
+    }
+    if (daysUntilDue === 0) {
+      return 'Due today';
+    }
+    return `${daysUntilDue} day${daysUntilDue !== 1 ? 's' : ''} until due`;
+  }
+
+  private formatCategory(category: string): string {
+    return category.charAt(0).toUpperCase() + category.slice(1);
+  }
+
+  private formatRecurrence(recurrence: string): string {
+    return recurrence.split('-').map(word => 
+      word.charAt(0).toUpperCase() + word.slice(1)
+    ).join(' ');
+  }
+
+  private escapeHtml(text: string): string {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+}
