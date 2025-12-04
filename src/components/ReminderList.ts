@@ -159,6 +159,9 @@ export class ReminderList {
     if (recurrence === 'custom' && customDays) {
       return `Every ${customDays} day${customDays !== 1 ? 's' : ''}`;
     }
+    if (recurrence === 'semi-annually') {
+      return 'Semi-annually';
+    }
     return recurrence.split('-').map(word => 
       word.charAt(0).toUpperCase() + word.slice(1)
     ).join(' ');

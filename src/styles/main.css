@@ -423,9 +423,8 @@ h2 {
 }
 
 .reminder-item.overdue {
-  border-left: 4px solid transparent;
+  border-left: 4px solid var(--danger-color);
   background: linear-gradient(135deg, rgba(245, 87, 108, 0.1) 0%, var(--glass-bg) 100%);
-  border-image: var(--danger-gradient) 1;
 }
 
 .reminder-item.overdue::before {
@@ -434,9 +433,8 @@ h2 {
 }
 
 .reminder-item.upcoming {
-  border-left: 4px solid transparent;
+  border-left: 4px solid var(--warning-color);
   background: linear-gradient(135deg, rgba(250, 112, 154, 0.1) 0%, var(--glass-bg) 100%);
-  border-image: var(--warning-gradient) 1;
 }
 
 .reminder-item.upcoming::before {
@@ -445,9 +443,8 @@ h2 {
 }
 
 .reminder-item.completed {
-  border-left: 4px solid transparent;
+  border-left: 4px solid var(--success-color);
   background: linear-gradient(135deg, rgba(79, 172, 254, 0.1) 0%, var(--glass-bg) 100%);
-  border-image: var(--success-gradient) 1;
   opacity: 0.8;
 }
 
@@ -545,8 +542,7 @@ h2 {
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border: 1px solid var(--glass-border);
-  border-left: 3px solid transparent;
-  border-image: var(--warning-gradient) 1;
+  border-left: 3px solid var(--warning-color);
   padding: 1rem;
   margin-bottom: var(--spacing-sm);
   border-radius: var(--border-radius);
@@ -579,7 +575,7 @@ h2 {
 }
 
 .notification-item.overdue {
-  border-image: var(--danger-gradient) 1;
+  border-left: 3px solid var(--danger-color);
 }
 
 .notification-item.overdue::before {
@@ -769,15 +765,6 @@ h2 {
     font-size: 2rem;
   }
 
-  /* Move theme toggle to bottom left on mobile */
-  #theme-toggle {
-    position: fixed;
-    bottom: 24px;
-    left: 24px;
-    z-index: 999;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  }
-
   .filter-controls {
     flex-direction: column;
   }
@@ -885,12 +872,12 @@ h2 {
 
 /* Theme Toggle */
 #theme-toggle {
-  font-size: 1.75rem;
+  font-size: 1.25rem;
   padding: 0;
   min-width: auto;
   border-radius: 50%;
-  width: 64px;
-  height: 64px;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -898,13 +885,13 @@ h2 {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--glass-border);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 #theme-toggle:hover {
   transform: scale(1.1) rotate(15deg);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 #theme-toggle:active {

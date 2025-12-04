@@ -12,6 +12,9 @@ export class RecurrenceCalculator {
       case 'quarterly':
         return addMonths(currentDueDate, 3);
       
+      case 'semi-annually':
+        return addMonths(currentDueDate, 6);
+      
       case 'annually':
         return addYears(currentDueDate, 1);
       
