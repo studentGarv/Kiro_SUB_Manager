@@ -679,22 +679,23 @@ h2 {
   position: fixed;
   bottom: 24px;
   right: 24px;
-  width: 64px;
-  height: 64px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
-  background: var(--warning-gradient);
-  border: none;
-  box-shadow: 0 8px 32px rgba(250, 112, 154, 0.4);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
   cursor: pointer;
   z-index: 1003;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
 }
 
 #mobile-notification-toggle:hover {
   transform: scale(1.1);
-  box-shadow: 0 12px 40px rgba(250, 112, 154, 0.5);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  background: var(--bg-tertiary);
 }
 
 #mobile-notification-toggle:active {
@@ -702,8 +703,8 @@ h2 {
 }
 
 #mobile-notification-toggle .notification-icon {
-  font-size: 1.75rem;
-  color: white;
+  font-size: 1.5rem;
+  color: var(--text-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -712,9 +713,9 @@ h2 {
 }
 
 #mobile-notification-toggle .notification-close-icon {
-  font-size: 2rem;
+  font-size: 1.75rem;
   font-weight: 300;
-  color: white;
+  color: var(--text-primary);
   display: none;
   align-items: center;
   justify-content: center;
@@ -746,12 +747,14 @@ h2 {
 
 /* When panel is open, change button to close */
 #mobile-notification-toggle.panel-open {
-  background: var(--danger-gradient);
+  background: var(--glass-bg);
+  border-color: var(--danger-color);
   transform: rotate(0deg);
 }
 
 #mobile-notification-toggle.panel-open:hover {
   transform: scale(1.1) rotate(90deg);
+  background: var(--bg-tertiary);
 }
 
 /* Responsive Design */
@@ -765,13 +768,9 @@ h2 {
     font-size: 2rem;
   }
 
-  .filter-controls {
-    flex-direction: column;
-  }
-
-  .search-group,
-  .filter-group {
-    width: 100%;
+  /* Hide filter bar on mobile */
+  .filter-bar {
+    display: none;
   }
 
   .form-actions {

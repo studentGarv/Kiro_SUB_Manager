@@ -57,33 +57,7 @@ Run tests in watch mode:
 npm run test:watch
 ```
 
-## Deployment to GitHub Pages
-
-This project is configured to automatically deploy to GitHub Pages when you push to the main branch.
-
-### Setup Instructions
-
-1. **Push your code to GitHub:**
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit"
-   git branch -M main
-   git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
-   git push -u origin main
-   ```
-
-2. **Enable GitHub Pages:**
-   - Go to your repository on GitHub
-   - Click on **Settings**
-   - Navigate to **Pages** in the left sidebar
-   - Under **Source**, select **GitHub Actions**
-
-3. **Deploy:**
-   - The GitHub Action will automatically run on push to main
-   - Your site will be available at: `https://YOUR_USERNAME.github.io/YOUR_REPO/`
-
-### Manual Deployment
+## Manual Deployment
 
 If you prefer to deploy manually:
 
