@@ -16,7 +16,7 @@
     - Add type guards and utility types
     - _Requirements: 1.1, 1.2, 1.5_
   
-  - [x]* 2.2 Write property test for reminder data model
+  - [ ]* 2.2 Write property test for reminder data model
     - **Property 1: Reminder creation and persistence round-trip**
     - **Validates: Requirements 1.1, 1.4, 1.5**
 
@@ -123,7 +123,7 @@
     - **Property 21: Filter clearing restores full list**
     - **Validates: Requirements 7.3**
 
-- [ ] 7. Checkpoint - Ensure all tests pass
+- [x] 7. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
 - [x] 8. Implement state management
@@ -133,7 +133,7 @@
     - Implement state update methods that notify subscribers
     - _Requirements: 2.5_
   
-  - [x]* 8.2 Write property test for UI reactivity
+  - [ ]* 8.2 Write property test for UI reactivity
     - **Property 7: UI state reactivity**
     - **Validates: Requirements 2.5**
 
@@ -280,7 +280,7 @@
     - Log errors to console for debugging
     - _Requirements: All_
 
-- [ ] 17. Final checkpoint - Ensure all tests pass
+- [x] 17. Final checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
 - [x] 18. Polish and accessibility improvements

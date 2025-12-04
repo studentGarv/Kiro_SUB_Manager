@@ -38,6 +38,7 @@ class App {
     this.deleteModal = document.getElementById('delete-modal') as HTMLElement;
 
     this.setupDeleteModal();
+    this.setupMobileNotifications();
     this.setupStateSubscription();
     this.loadInitialData();
   }
@@ -55,6 +56,41 @@ class App {
         this.cancelDelete();
       }
     });
+  }
+
+  private setupMobileNotifications(): void {
+    const toggleBtn = document.getElementById('mobile-notification-toggle');
+    const panel = document.getElementById('notifications-panel');
+    const bellIcon = toggleBtn?.querySelector('.notification-icon') as HTMLElement;
+    const closeIcon = toggleBtn?.querySelector('.notification-close-icon') as HTMLElement;
+
+    let isOpen = false;
+
+    const togglePanel = () => {
+      isOpen = !isOpen;
+
+      if (isOpen) {
+        // Open panel
+        panel?.classList.add('mobile-open');
+        toggleBtn?.classList.add('panel-open');
+        document.body.style.overflow = 'hidden';
+        
+        // Switch icons
+        if (bellIcon) bellIcon.style.display = 'none';
+        if (closeIcon) closeIcon.style.display = 'flex';
+      } else {
+        // Close panel
+        panel?.classList.remove('mobile-open');
+        toggleBtn?.classList.remove('panel-open');
+        document.body.style.overflow = '';
+        
+        // Switch icons back
+        if (bellIcon) bellIcon.style.display = 'flex';
+        if (closeIcon) closeIcon.style.display = 'none';
+      }
+    };
+
+    toggleBtn?.addEventListener('click', togglePanel);
   }
 
   private setupStateSubscription(): void {
@@ -81,12 +117,31 @@ class App {
     this.reminderList.render(reminders);
     this.notificationPanel.render();
 
+    // Update notification badge
+    this.updateNotificationBadge();
+
     // Handle editing state
     if (state.editingReminderId) {
       const reminder = reminders.find(r => r.id === state.editingReminderId);
       if (reminder) {
         this.reminderForm.populateForm(reminder);
         this.scrollToForm();
+      }
+    }
+  }
+
+  private updateNotificationBadge(): void {
+    const upcomingCount = this.reminderService.getUpcomingReminders(7).length;
+    const overdueCount = this.reminderService.getOverdueReminders().length;
+    const totalCount = upcomingCount + overdueCount;
+
+    const badge = document.getElementById('notification-badge');
+    if (badge) {
+      if (totalCount > 0) {
+        badge.textContent = totalCount.toString();
+        badge.style.display = 'flex';
+      } else {
+        badge.style.display = 'none';
       }
     }
   }
